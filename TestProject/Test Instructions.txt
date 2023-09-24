@@ -1,0 +1,38 @@
+Create a web application that does the following tasks
+
+1. Read data from the JSON file provided, and insert this into a database table. Each field returned in the json file can be used as a db column to store it's value.  Then display this data on a web page, pulling from the database table.
+
+2. Create a web page that should have a display table with the following columns:
+	NetworkOfferId, LongName, Categories, Countries, Bid, Device Type, Operating System, Action
+
+3. In the Action column of the web page, the Following 3 buttons should be on the web page with their respective mentioned functionality:
+
+	A) "Load New Data" -> On click it should fire a background command to load data from data.json file and insert or update that table. If the table already has data(NetworkOfferId) then don't insert a new record, rather it should just update all the data in all the other columns associated with that NetworkOfferId. (Even though it's a static json file, technically the data will always be the same anyway, but we just want you to write the code for this.) Please make sure the categories should be inserted as per their constants provided in Categories.php
+
+	B) "Generate Hash" -> On click it should fire a background command to generate a hash and update the the "Hash" column in the database table using md5. The key for md5 will be a combination of following columns
+	Instructins+LongName+Categories+Countries
+
+	C) "Display Data" -> On click it should query the database and display the data on page order by Bid DESC. Please use SSP library along with datatables to do so. It SHOULD NOT load all the data at once rather it should be paginated server side.
+	Make sure the categories are displaying their full names and not their numeric constants.
+	Make sure countries are displaying their full name and their country code. You are free to use any API/JSON to fetch full country name against their country code. While displaying countries make sure they are ordered asc alphabetically by their name and not their code. For Example if any record has US, ES, DE, AU it should display as following
+	United States
+	Spain
+	Germany
+	Australia
+	
+
+
+4. The Action Column should be mapped to TrackingUrl in an achor tag with Label "View Link". Every time the anchor is clicked you should insert a record in a new database table(click_track) with NetworkOfferId, ClickCount. If the record already exists for that "NetworkOfferId" then just increment the ClickCount by 1 each time.
+
+5. Create a table with name of your choice that should log every time the following actions are performed
+	A) Load New Data
+	B) Generate Hash
+
+	the table should have the following columns
+	Id, DateTimeStamp, Action
+
+
+
+You should use Cakephp3+ to create the web application. You are free to use 3rd party libraries to achieve any of the tasks. If you have any confusion please let us know.
+
+
