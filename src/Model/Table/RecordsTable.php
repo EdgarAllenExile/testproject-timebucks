@@ -100,6 +100,12 @@ class RecordsTable extends Table
             ->notEmptyString('Categories');
 
         $validator
+            ->scalar('Countries')
+            ->requirePresence('Countries', 'create')
+            ->notEmptyString('Countries');
+
+
+        $validator
             ->numeric('Bid')
             ->requirePresence('Bid', 'create')
             ->notEmptyString('Bid');

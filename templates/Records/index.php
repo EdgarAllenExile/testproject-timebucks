@@ -1,70 +1,52 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var iterable<\App\Model\Entity\Record> $records
- */
-?>
-<div class="records index content">
-    <?= $this->Html->link(__('New Record'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Records') ?></h3>
-    <div class="table-responsive">
-        <table>
-            <thead>
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css"/>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    
+    <script type="text/javascript">
+        $(document).ready( function () {
+        let table = $('#records').DataTable({
+            columnDefs: [
+                { orderable: false, targets: [0, 1, 2, 4] },
+                { "searchable": false, "targets": [1, 2, 3, 4] }
+            ],
+            order: [[3, 'dsc']
+            ]
+        });
+    });
+    </script>
+
+</head>
+<body>
+    <h1>Records</h1>
+    <table id="records" class="display">
+        <thead>
+            <tr>
+                <th>NetworkOfferId</th>
+                <th>LongName</th>
+                <th>Categories</th>
+                <th>Countries</th>
+                <th>Bid</th>
+                <th>Device Type</th>
+                <th>Operating System</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($records as $record): ?>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('RecordId') ?></th>
-                    <th><?= $this->Paginator->sort('AdvertiserId') ?></th>
-                    <th><?= $this->Paginator->sort('NetworkOfferId') ?></th>
-                    <th><?= $this->Paginator->sort('TaskCampaignId') ?></th>
-                    <th><?= $this->Paginator->sort('Bid') ?></th>
-                    <th><?= $this->Paginator->sort('LastChangeDate') ?></th>
-                    <th><?= $this->Paginator->sort('MultipleConvAllowed') ?></th>
-                    <th><?= $this->Paginator->sort('DailyCap') ?></th>
-                    <th><?= $this->Paginator->sort('TotalCap') ?></th>
-                    <th><?= $this->Paginator->sort('NetworkECPC') ?></th>
-                    <th><?= $this->Paginator->sort('TbECPC') ?></th>
-                    <th><?= $this->Paginator->sort('IsActive') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <td><?= h($record->NetworkOfferId) ?></td>
+                    <td><?= h($record->LongName) ?></td>
+                    <td><?= h($record->Categories) ?></td>
+                    <td><?= h($record->Countries) ?></td>
+                    <td><?= h($record->Bid) ?></td>
+                    <td><?= h($record->DeviceType) ?></td>
+                    <td><?= h($record->OperatingSystem) ?></td>
+                    <td><?= h($record->Action) ?></td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($records as $record): ?>
-                <tr>
-                    <td><?= $this->Number->format($record->id) ?></td>
-                    <td><?= $this->Number->format($record->RecordId) ?></td>
-                    <td><?= $this->Number->format($record->AdvertiserId) ?></td>
-                    <td><?= $this->Number->format($record->NetworkOfferId) ?></td>
-                    <td><?= $this->Number->format($record->TaskCampaignId) ?></td>
-                    <td><?= $this->Number->format($record->Bid) ?></td>
-                    <td><?= h($record->LastChangeDate) ?></td>
-                    <td><?= $this->Number->format($record->MultipleConvAllowed) ?></td>
-                    <td><?= $this->Number->format($record->DailyCap) ?></td>
-                    <td><?= $this->Number->format($record->TotalCap) ?></td>
-                    <td><?= $this->Number->format($record->NetworkECPC) ?></td>
-                    <td><?= $this->Number->format($record->TbECPC) ?></td>
-                    <td><?= h($record->IsActive) ?></td>
-                    <td><?= h($record->created) ?></td>
-                    <td><?= h($record->modified) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $record->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $record->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $record->id], ['confirm' => __('Are you sure you want to delete # {0}?', $record->id)]) ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-    </div>
-</div>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</body>

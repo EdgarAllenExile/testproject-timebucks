@@ -51,6 +51,10 @@ class CreateRecords extends AbstractMigration
                 'default' => null,
                 'null' => false,
             ]);
+            $table->addColumn('Countries', 'text', [
+                'default' => null,
+                'null' => false,
+            ]);
             $table->addColumn('Bid', 'float', [
                 'default' => null,
                 'null' => false,
@@ -124,14 +128,6 @@ class CreateRecords extends AbstractMigration
                 'null' => false,
             ]);
             $table->addColumn('Network', 'text', [
-                'default' => null,
-                'null' => false,
-            ]);
-            $table->addColumn('created', 'datetime', [
-                'default' => null,
-                'null' => false,
-            ]);
-            $table->addColumn('modified', 'datetime', [
                 'default' => null,
                 'null' => false,
             ]);
