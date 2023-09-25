@@ -3,6 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Command\Command;
+use Cake\Console\Arguments;
+use Cake\Console\ConsoleIo;
+
+
 /**
  * Records Controller
  *
@@ -15,6 +20,24 @@ class RecordsController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
+
+    public function addOrUpdateRecord($id = null)
+    {
+        $response = shell_exec('bin/cake Update');
+        return $this->redirect(['action' => 'index']);
+    }
+
+    public function setHash($id = null)
+    {
+        $record = $this->Records->get($id);
+        $string = $record['Instructions'] + $record['LongName'] + $record['Categories'] + $record['Countries'];
+        $hash = Security::hash($string, 'sha1', true);
+        $record->Hash = $hash;
+
+        $this->Records->save($record);
+        
+    }
+  
     public function index()
     {
         $query = $this->Records->find();

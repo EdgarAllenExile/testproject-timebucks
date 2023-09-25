@@ -3,20 +3,28 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css"/>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
-    
+    <link href="https://cdn.datatables.net/v/bs5/dt-1.13.6/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/date-1.5.1/sb-1.5.0/sp-2.2.0/sl-1.7.0/datatables.min.css" rel="stylesheet">    <script src="https://cdn.datatables.net/v/dt/dt-1.13.6/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/date-1.5.1/sb-1.5.0/sp-2.2.0/sl-1.7.0/datatables.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready( function () {
-        let table = $('#records').DataTable({
-            columnDefs: [
-                { orderable: false, targets: [0, 1, 2, 4] },
-                { "searchable": false, "targets": [1, 2, 3, 4] }
-            ],
-            order: [[3, 'dsc']
-            ]
+            const table = $('#records').DataTable({
+                
+            });
         });
-    });
+
     </script>
+
+<script>
+    $(document).on('click', '#action_load', function($record) {
+    console.log($record)
+    });
+</script>
+
+<script>
+    function test(element){
+        console.log(element);
+    }
+</script>
 
 </head>
 <body>
@@ -44,7 +52,21 @@
                     <td><?= h($record->Bid) ?></td>
                     <td><?= h($record->DeviceType) ?></td>
                     <td><?= h($record->OperatingSystem) ?></td>
-                    <td><?= h($record->Action) ?></td>
+                    <td>
+
+                    <?php echo $this->Form->create(null, ['url' => ['controller' => 'Records', 'action' => 'addOrUpdateRecord']]); ?>
+                    <?php echo $this->Form->button(__('Load')); ?>
+
+                    <?php echo $this->Form->create(null, ['url' => ['controller' => 'Records', 'action' => 'getHash']]); ?>
+                    <?php echo $this->Form->button(__('Hash')); ?>
+                    <!-- <form action="addOrUpdateRecord" method="post"> -->
+                    <!-- <?= $this->Form->button('Button', ['type' => 'submit']) ?> -->
+                        <!-- <button type="button" id="action_load" onclick="test(<?= $record->NetworkOfferId ?>)">Load</button>
+                        <button type="button" id="action_hash" onclick="test(<?= $record->NetworkOfferId ?>)">Hash</button>
+                        <button type="button" id="action_hash" onclick="test(<?= $record->NetworkOfferId ?>)">Display</button> -->
+                    </form>
+                        <a href= <?=$record->TrackingUrl ?> target="_blank">View</a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
