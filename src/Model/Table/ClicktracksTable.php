@@ -25,7 +25,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Clicktrack[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Clicktrack[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class ClicktrackTable extends Table
+class ClicktracksTable extends Table
 {
     /**
      * Initialize method
@@ -40,9 +40,9 @@ class ClicktrackTable extends Table
             'foreignKey' => 'NetworkOfferId'
         ]);
         
-        $this->setTable('clicktrack');
-        $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
+        $this->setTable('clicktracks');
+        $this->setDisplayField('NetworkOfferId');
+        $this->setPrimaryKey('NetworkOfferId');
     }
 
     /**

@@ -12,19 +12,23 @@
             });
         });
 
+
     </script>
 
-<script>
-    $(document).on('click', '#action_load', function($record) {
-    console.log($record)
-    });
-</script>
+    <script> 
+        function incClickTrack(element) {
+            let $obj = $(element).parents('td').closest('tr').find('.NetworkOfferId').html();
 
-<script>
-    function test(element){
-        console.log(element);
-    }
-</script>
+            $.ajax({
+                type: "post",
+                url: "<?= $this->Url->build(['controller' => 'Clicktracks','action' => 'click']) ?>",
+                data:  {
+                    NetworkOfferId: $obj
+                }
+            })
+            console.log($obj)
+        }
+    </script>
 
 </head>
 <body>
@@ -44,8 +48,9 @@
         </thead>
         <tbody>
             <?php foreach ($records as $record): ?>
+                
                 <tr>
-                    <td><?= h($record->NetworkOfferId) ?></td>
+                    <td class="NetworkOfferId"><?= h($record->NetworkOfferId) ?></td>
                     <td><?= h($record->LongName) ?></td>
                     <td><?= h($record->Categories) ?></td>
                     <td><?= h($record->Countries) ?></td>
@@ -53,19 +58,14 @@
                     <td><?= h($record->DeviceType) ?></td>
                     <td><?= h($record->OperatingSystem) ?></td>
                     <td>
+                        <?php echo $this->Form->create(null, ['url' => ['controller' => 'Records', 'action' => 'addOrUpdateRecord']]); ?>
+                        <?php echo $this->Form->button(__('Load')); ?>
 
-                    <?php echo $this->Form->create(null, ['url' => ['controller' => 'Records', 'action' => 'addOrUpdateRecord']]); ?>
-                    <?php echo $this->Form->button(__('Load')); ?>
+                        <?php echo $this->Form->create(null, ['url' => ['controller' => 'Records', 'action' => 'getHash']]); ?>
+                        <?php echo $this->Form->button(__('Hash')); ?>
 
-                    <?php echo $this->Form->create(null, ['url' => ['controller' => 'Records', 'action' => 'getHash']]); ?>
-                    <?php echo $this->Form->button(__('Hash')); ?>
-                    <!-- <form action="addOrUpdateRecord" method="post"> -->
-                    <!-- <?= $this->Form->button('Button', ['type' => 'submit']) ?> -->
-                        <!-- <button type="button" id="action_load" onclick="test(<?= $record->NetworkOfferId ?>)">Load</button>
-                        <button type="button" id="action_hash" onclick="test(<?= $record->NetworkOfferId ?>)">Hash</button>
-                        <button type="button" id="action_hash" onclick="test(<?= $record->NetworkOfferId ?>)">Display</button> -->
-                    </form>
-                        <a href= <?=$record->TrackingUrl ?> target="_blank">View</a>
+                        </form>
+                        <a href= <?=$record->TrackingUrl ?> onclick=incClickTrack(this) target="_blank" id="TrackingUrl">View</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

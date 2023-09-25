@@ -3,21 +3,50 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\ORM\Locator\LocatorAwareTrait;
+use Cake\ORM\Query;
+use Cake\Http\ServerRequest;
+
 /**
  * Clicktrack Controller
  *
  * @property \App\Model\Table\ClicktrackTable $Clicktrack
  */
-class ClicktrackController extends AppController
+class ClicktracksController extends AppController
 {
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
+
+    public function click($id = null)
+    {
+        $data = $this->request->getData();
+        $clicktracksTable = $this->getTableLocator()->get('Clicktracks');
+        $query = $clicktracksTable->find('all')
+            ->where(['Clicktracks.NetworkOfferId' => $data["NetworkOfferId"]]);
+        $row = $query->all();
+        $number = $query->count();
+
+        if ($number > 0 ) {
+            $clicktrack = $clicktracksTable->get($data['NetworkOfferId']);
+            $clicktrack->ClickCount = $clicktrack->ClickCount + 1;
+            $this->Clicktracks->save($clicktrack);
+
+        } else {
+            $clicktrack = $clicktracksTable->newEmptyEntity();
+            $clicktrack->NetworkOfferId = $data['NetworkOfferId'];
+            $clicktrack->ClickCount = 1;
+            $this->Clicktracks->save($clicktrack);
+        }
+        return $this->redirect(['action' => 'index']);
+    }
+    
+
     public function index()
     {
-        $query = $this->Clicktrack->find();
+        $query = $this->Clicktracks->find();
         $clicktrack = $this->paginate($query);
 
         $this->set(compact('clicktrack'));
@@ -32,7 +61,7 @@ class ClicktrackController extends AppController
      */
     public function view($id = null)
     {
-        $clicktrack = $this->Clicktrack->get($id, contain: []);
+        $clicktrack = $this->Clicktracks->get($id, contain: []);
         $this->set(compact('clicktrack'));
     }
 
@@ -43,10 +72,10 @@ class ClicktrackController extends AppController
      */
     public function add()
     {
-        $clicktrack = $this->Clicktrack->newEmptyEntity();
+        $clicktrack = $this->Clicktracks->newEmptyEntity();
         if ($this->request->is('post')) {
-            $clicktrack = $this->Clicktrack->patchEntity($clicktrack, $this->request->getData());
-            if ($this->Clicktrack->save($clicktrack)) {
+            $clicktrack = $this->Clicktracks->patchEntity($clicktrack, $this->request->getData());
+            if ($this->Clicktracks->save($clicktrack)) {
                 $this->Flash->success(__('The clicktrack has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -65,10 +94,10 @@ class ClicktrackController extends AppController
      */
     public function edit($id = null)
     {
-        $clicktrack = $this->Clicktrack->get($id, contain: []);
+        $clicktrack = $this->Clicktracks->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $clicktrack = $this->Clicktrack->patchEntity($clicktrack, $this->request->getData());
-            if ($this->Clicktrack->save($clicktrack)) {
+            $clicktrack = $this->Clicktracks->patchEntity($clicktrack, $this->request->getData());
+            if ($this->Clicktracks->save($clicktrack)) {
                 $this->Flash->success(__('The clicktrack has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -88,8 +117,8 @@ class ClicktrackController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $clicktrack = $this->Clicktrack->get($id);
-        if ($this->Clicktrack->delete($clicktrack)) {
+        $clicktrack = $this->Clicktracks->get($id);
+        if ($this->Clicktracks->delete($clicktrack)) {
             $this->Flash->success(__('The clicktrack has been deleted.'));
         } else {
             $this->Flash->error(__('The clicktrack could not be deleted. Please, try again.'));

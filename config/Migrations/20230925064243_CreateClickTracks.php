@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class ClickTrack extends AbstractMigration
+class CreateClickTracks extends AbstractMigration
 {
     /**
      * Change Method.
@@ -14,7 +14,7 @@ class ClickTrack extends AbstractMigration
      */
     public function change(): void
     {
-        $table = $this->table('clicktrack');
+        $table = $this->table('clicktracks');
         $table->addColumn('NetworkOfferId', 'integer' , [
             'default' => null,
             'null' => false,

@@ -34,6 +34,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('script') ?>
 </head>
 <body>
+<script>
+var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
+// ...
+</script>
+
     <nav class="top-nav">
         <div class="top-nav-title">
             <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
