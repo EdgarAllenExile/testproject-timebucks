@@ -8,10 +8,9 @@
     <script type="text/javascript">
         $(document).ready( function () {
             const table = $('#records').DataTable({
-
+            order: [[4, 'dsc']]
             });
         });
-
 
     </script>
 
