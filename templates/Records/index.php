@@ -8,7 +8,7 @@
     <script type="text/javascript">
         $(document).ready( function () {
             const table = $('#records').DataTable({
-                
+
             });
         });
 
@@ -18,7 +18,6 @@
     <script> 
         function incClickTrack(element) {
             let $obj = $(element).parents('td').closest('tr').find('.NetworkOfferId').html();
-
             $.ajax({
                 type: "post",
                 url: "<?= $this->Url->build(['controller' => 'Clicktracks','action' => 'click']) ?>",

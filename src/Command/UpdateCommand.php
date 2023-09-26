@@ -1,7 +1,6 @@
 <?php
 namespace App\Command;
 
-
 use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
@@ -11,6 +10,10 @@ class UpdateCommand extends Command
 {
     public function execute(Arguments $args, ConsoleIo $io): int
     {
+
+        $catnames = ['Android', 'Downloads', 'EmailSubmits', 'Free', 'iPad', 'iPhone', 'LeadGen', 'CreditCardRequired', 'MobileSubscription', 'Surveys', 'Videos', 'CPC', 'PayPerCall', 'Cashback'];
+        $catints = ['4', '8', '2', '9', '4', '4', '10', '7', '4', '1', '5', '9', '9', '6'];
+
         $conection = mysqli_connect('localhost', 'testproject_timebucks', 'chicken', 'testproject_timebucks') or die('Error in Connecting: ' . mysqli_error($conection));
         $json = file_get_contents('./TestProject/data.json');
         $data = json_decode($json, true);
@@ -27,7 +30,7 @@ class UpdateCommand extends Command
                 ShortName = VALUES(ShortName),  
                 Description = VALUES(Description),  
                 Instructions = VALUES(Instructions),  
-                Categories = VALUES(Categories),  
+                Categories =  VALUES(Categories),  
                 Countries = VALUES(Countries),  
                 Bid = VALUES(Bid),  
                 ImageUrl = VALUES(ImageUrl),  
@@ -60,8 +63,8 @@ class UpdateCommand extends Command
             $ShortName = $row['ShortName'];  
             $Description = $row['Description'];  
             $Instructions = $row['Instructions'];  
-            $Categories = $row['Categories'];  
-            $Countries = $row['Countries'];  
+            $Categories = str_replace($catints, $catnames, $row['Categories']);  
+            $Countries = locale_get_display_region($row['Countries'], 'en');  
             $Bid = $row['Bid'];  
             $ImageUrl = $row['ImageUrl'];  
             $TrackingUrl = $row['TrackingUrl'];  
