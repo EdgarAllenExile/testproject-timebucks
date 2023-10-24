@@ -1,53 +1,25 @@
-# CakePHP Application Skeleton
+# PHP Test Project 2
+## Introduction
+This was an additional test project that I completed, as I wanted to further imrpove my (Cake)PHP abilities. 
 
-![Build Status](https://github.com/cakephp/app/actions/workflows/ci.yml/badge.svg?branch=master)
-[![Total Downloads](https://img.shields.io/packagist/dt/cakephp/app.svg?style=flat-square)](https://packagist.org/packages/cakephp/app)
-[![PHPStan](https://img.shields.io/badge/PHPStan-level%207-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
+This project is also a one page application with with no login/signup. If you have any questions please do not hesitate to send me an email.
 
-A skeleton for creating applications with [CakePHP](https://cakephp.org) 5.x.
+## Tech Stack
+Backend: CakePHP 5.0
+Frontend: Jquery Datatables & Bootstrap
+Database: MySQL
 
-The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
+## Features
+1. Reads data from the JSON file provided and inserts this into a database table. Each field returned in the json file is used as a db column to store the value.
 
-## Installation
+2. Created a web page that pulls in this data into a display table with the following columns:
+	NetworkOfferId, LongName, Categories, Countries, Bid, Device Type, Operating System, Action
 
-1. Download [Composer](https://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
-2. Run `php composer.phar create-project --prefer-dist cakephp/app [app_name]`.
+3. Action column within each row of the table houses three buttons, which have the following functions: 
+    A) "Load New Data" -> On click it fires a background command to load data from data.json file, using the INSERT OR UPDATE MySQLi command. If the table already has data then it will update. If this is novel data it will insert.
+    B) "Generate Hash" -> On click it fires a background command to generate a hash and update the the "Hash" column in the database table using MD5. The MD5 key is a combination of following columns: Instructins+LongName+Categories+Countries
+    C) "Display Data" -> On click it should query the database and display the data on page order by Bid DESC. It ensures some additional rules are followed. These are:
+    	Categories display full names and not the provided numeric constants, as per their the information provided in Categories.php
+    	Countries display full name and not the provided country code. 
 
-If Composer is installed globally, run
-
-```bash
-composer create-project --prefer-dist cakephp/app
-```
-
-In case you want to use a custom app dir name (e.g. `/myapp/`):
-
-```bash
-composer create-project --prefer-dist cakephp/app myapp
-```
-
-You can now either use your machine's webserver to view the default home page, or start
-up the built-in webserver with:
-
-```bash
-bin/cake server -p 8765
-```
-
-Then visit `http://localhost:8765` to see the welcome page.
-
-## Update
-
-Since this skeleton is a starting point for your application and various files
-would have been modified as per your needs, there isn't a way to provide
-automated upgrades, so you have to do any updates manually.
-
-## Configuration
-
-Read and edit the environment specific `config/app_local.php` and set up the
-`'Datasources'` and any other configuration relevant for your application.
-Other environment agnostic settings can be changed in `config/app.php`.
-
-## Layout
-
-The app skeleton uses [Milligram](https://milligram.io/) (v1.3) minimalist CSS
-framework by default. You can, however, replace it with any other library or
-custom styles.
+4. Created click tracking functionality. The Action Column "View Link" tag is mapped to the record's TrackingUrl. Every time the anchor is clicked an INSERT OR UPDATE command is sent to the click tracking table, with NetworkOfferId, ClickCount. If the record already exists for that "NetworkOfferId" then the ClickCount is incremented by 1 each time.
